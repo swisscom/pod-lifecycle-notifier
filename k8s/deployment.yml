@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: pod-lifecycle-notifier
+  labels:
+    app: pod-lifecycle-notifier
+spec:
+  selector:
+    matchLabels:
+      app: pod-lifecycle-notifier
+  template:
+    metadata:
+      labels:
+        app: pod-lifecycle-notifier
+    spec:
+      containers:
+        - name: pod-lifecycle-notifier
+          image: robachmann/pod-lifecycle-notifier:1.0.0-200623130218
+          resources:
+            requests:
+              cpu: 5m
+              memory: 768Mi
+            limits:
+              memory: 768Mi
+          env:
+            - name: callback.msTeamsUri
+              valueFrom:
+                secretKeyRef:
+                  name: callback
+                  key: msTeamsUri
+            - name: KUBERNETES_NODE
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+            - name: KUBERNETES_POD
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: KUBERNETES_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: KUBERNETES_NODE_IP_ADDRESS
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.hostIP
+            - name: KUBERNETES_POD_IP_ADDRESS
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: KUBERNETES_SERVICE_ACCOUNT
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.serviceAccountName
+#            - name: PROXY_HOST
+#              value: "<insert-proxy-host-if-needed>"
+#            - name: PROXY_PORT
+#              value: "<insert-proxy-port-if-needed>"
+          ports:
+            - name: container-port
+              containerPort: 8080
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: container-port
+            failureThreshold: 1
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: container-port
+            failureThreshold: 3
+            periodSeconds: 10
