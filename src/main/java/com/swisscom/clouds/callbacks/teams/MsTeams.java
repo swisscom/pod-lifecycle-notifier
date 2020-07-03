@@ -9,8 +9,8 @@ import com.swisscom.clouds.config.CallbackProperties;
 import com.swisscom.clouds.config.KubernetesProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
@@ -53,15 +53,7 @@ public class MsTeams implements Callback {
                 webClient -> webClient.post()
                         .bodyValue(createMessageCard(title, severity))
                         .exchange()
-                        .flatMap(clientResponse -> {
-                            HttpStatus httpStatus = clientResponse.statusCode();
-                            if (httpStatus.is2xxSuccessful()) {
-                                log.info("Received status={} from MS Teams API", httpStatus.toString());
-                            } else {
-                                return WebClientHelper.logResponseBodyAndReturnEmpty(clientResponse);
-                            }
-                            return Mono.just(clientResponse);
-                        }).hasElement()
+                        .flatMap(this::logResponseStatusAndBody)
         );
     }
 
@@ -78,6 +70,18 @@ public class MsTeams implements Callback {
         factSet.getFacts().add(new Fact("Service Account:", k8sProperties.getServiceAccount()));
         messageCard.getSections().add(factSet);
         return messageCard;
+    }
+
+    private Mono<?> logResponseStatusAndBody(ClientResponse clientResponse) {
+        return clientResponse.bodyToMono(String.class)
+                .defaultIfEmpty("[empty body]")
+                .flatMap(body -> Mono.fromRunnable(() -> {
+                    if (clientResponse.statusCode().is2xxSuccessful()) {
+                        log.info("Received status={} from MS Teams API", clientResponse.statusCode().toString());
+                    } else {
+                        log.error("Received status={} from MS Teams API with responseBody={}", clientResponse.statusCode().toString(), body);
+                    }
+                }));
     }
 
 }
