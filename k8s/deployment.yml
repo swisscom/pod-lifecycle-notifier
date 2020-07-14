@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: pod-lifecycle-notifier
-          image: robachmann/pod-lifecycle-notifier:1.0.0-200703120459
+          image: robachmann/pod-lifecycle-notifier:1.0.3
           resources:
             requests:
               cpu: 5m
@@ -28,6 +28,11 @@ spec:
                 secretKeyRef:
                   name: callback
                   key: msTeamsUri
+            - name: KUBERNETES_CLUSTER
+              valueFrom:
+                secretKeyRef:
+                  name: callback
+                  key: clusterName
             - name: KUBERNETES_NODE
               valueFrom:
                 fieldRef:

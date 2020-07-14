@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties("kubernetes")
 public class KubernetesProperties {
 
+    private String cluster;
     private String node;
     private String namespace;
     private String pod;

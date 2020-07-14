@@ -10,7 +10,9 @@ Then, deployment is straight-forward with `kubectl apply`.
 # Configuration
 The two files mentioned above ([deployment.yml](k8s/deployment.yml) and [secret-callback.yml](k8s/secret-callback.yml)) are also the two locations where certain adjustments can be made:
 Initially, the application supported only the Microsoft Teams notification channel.
-If you'd like to use that, enter the corresponding teams URI which resembles this pattern: `https://outlook.office.com/webhook/<uuid>@<uuid>/IncomingWebhook/<id>/<uuid>`. 
+If you'd like to use that, enter the corresponding teams URI which resembles this pattern: `https://outlook.office.com/webhook/<uuid>@<uuid>/IncomingWebhook/<id>/<uuid>`.
+You can provide a custom cluster-name by overwriting the environment variable `KUBERNETES_CLUSTER` in the deployment to disambiguate notifications from different clusters.
+By default, the provided [deploy-k8s.sh](deploy-k8s.sh) will set it to your local machine's cluster-context.
 
 # Extension
 To use your own notification channel, have a look at [ConsoleLogger.java](src/main/java/com/swisscom/clouds/callbacks/console/ConsoleLogger.java) and add your own class implementing the interface [Callback.java](src/main/java/com/swisscom/clouds/callbacks/Callback.java).

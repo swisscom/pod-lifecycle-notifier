@@ -4,6 +4,8 @@ import com.swisscom.clouds.callbacks.Callback;
 import com.swisscom.clouds.config.KubernetesProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.boot.info.BuildProperties;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
@@ -13,6 +15,7 @@ import reactor.core.publisher.Mono;
 public class ConsoleLogger implements Callback {
 
     private final KubernetesProperties k8sProperties;
+    private final BuildProperties buildProperties;
 
     @Override
     public boolean isEnabled() {
@@ -30,8 +33,16 @@ public class ConsoleLogger implements Callback {
     }
 
     private String createMessage(String title) {
-        return String.format("%s: node=%s, nodeIpAddress=%s, namespace=%s, pod=%s, podIpAddress=%s, serviceAccount=%s",
-                title, k8sProperties.getNode(), k8sProperties.getNodeIpAddress(), k8sProperties.getNamespace(), k8sProperties.getPod(), k8sProperties.getPodIpAddress(), k8sProperties.getServiceAccount());
+        return String.format("%s: %snode=%s, nodeIpAddress=%s, namespace=%s, pod=%s, podIpAddress=%s, serviceAccount=%s, buildVersion=%s",
+                title, formatOptionalClusterName(), k8sProperties.getNode(), k8sProperties.getNodeIpAddress(), k8sProperties.getNamespace(), k8sProperties.getPod(), k8sProperties.getPodIpAddress(), k8sProperties.getServiceAccount(), buildProperties.getVersion());
+    }
+
+    private String formatOptionalClusterName() {
+        if (StringUtils.isNotBlank(k8sProperties.getCluster())) {
+            return "cluster=" + k8sProperties.getCluster() + ", ";
+        } else {
+            return "";
+        }
     }
 
 }

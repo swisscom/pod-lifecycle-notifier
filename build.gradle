@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'com.swisscom'
-version = '1.0.0'
+version = '1.0.3'
 sourceCompatibility = '11'
 
 configurations {
@@ -42,6 +42,10 @@ wrapper {
 	gradleVersion = '6.4'
 }
 
+springBoot {
+	buildInfo()
+}
+
 bootBuildImage {
-	imageName = "robachmann/${project.name}:${project.version}-${new Date().format("YYMMddHHmmss") }"
+	imageName = "robachmann/${project.name}:${project.version}"
 }

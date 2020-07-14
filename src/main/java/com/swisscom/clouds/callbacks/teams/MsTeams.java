@@ -9,6 +9,7 @@ import com.swisscom.clouds.config.CallbackProperties;
 import com.swisscom.clouds.config.KubernetesProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.boot.info.BuildProperties;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -21,9 +22,11 @@ public class MsTeams implements Callback {
     private final boolean isEnabled;
     private final Mono<WebClient> webClientMono;
     private final KubernetesProperties k8sProperties;
+    private final BuildProperties buildProperties;
 
-    public MsTeams(CallbackProperties callbackProperties, KubernetesProperties k8sProperties, WebClient.Builder webclientBuilder) {
+    public MsTeams(CallbackProperties callbackProperties, KubernetesProperties k8sProperties, WebClient.Builder webclientBuilder, BuildProperties buildProperties) {
         this.k8sProperties = k8sProperties;
+        this.buildProperties = buildProperties;
         String msTeamsUri = callbackProperties.getMsTeamsUri();
         this.isEnabled = StringUtils.isNotBlank(msTeamsUri);
         if (this.isEnabled) {
@@ -62,12 +65,16 @@ public class MsTeams implements Callback {
         messageCard.setThemeColor(severity.getCode());
         messageCard.setText("Pod Lifecycle Notifier triggered notification.");
         FactSet factSet = new FactSet();
+        if (StringUtils.isNotBlank(k8sProperties.getCluster())) {
+            factSet.getFacts().add(new Fact("Cluster:", k8sProperties.getCluster()));
+        }
         factSet.getFacts().add(new Fact("Node:", k8sProperties.getNode()));
         factSet.getFacts().add(new Fact("Node IP Address:", k8sProperties.getNodeIpAddress()));
         factSet.getFacts().add(new Fact("Namespace:", k8sProperties.getNamespace()));
         factSet.getFacts().add(new Fact("Pod:", k8sProperties.getPod()));
         factSet.getFacts().add(new Fact("Pod IP Address:", k8sProperties.getPodIpAddress()));
         factSet.getFacts().add(new Fact("Service Account:", k8sProperties.getServiceAccount()));
+        factSet.getFacts().add(new Fact("Build Version:", buildProperties.getVersion()));
         messageCard.getSections().add(factSet);
         return messageCard;
     }
