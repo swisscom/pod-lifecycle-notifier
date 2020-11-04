@@ -19,9 +19,9 @@ spec:
           resources:
             requests:
               cpu: 5m
-              memory: 256Mi
+              memory: 128Mi
             limits:
-              memory: 256Mi
+              memory: 128Mi
           env:
             - name: callback.msTeamsUri
               valueFrom:
@@ -58,7 +58,7 @@ spec:
                 fieldRef:
                   fieldPath: spec.serviceAccountName
             - name: JAVA_OPTS
-              value: "-XX:ReservedCodeCacheSize=80m -XX:MaxMetaspaceSize=80m -Xss512k"
+              value: "-XX:ReservedCodeCacheSize=20M -XX:MaxDirectMemorySize=1M -XX:MaxMetaspaceSize=60M -Xss256K"
 #            - name: PROXY_HOST
 #              value: "<insert-proxy-host-if-needed>"
 #            - name: PROXY_PORT
