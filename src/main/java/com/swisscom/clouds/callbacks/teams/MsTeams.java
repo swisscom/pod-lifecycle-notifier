@@ -55,8 +55,7 @@ public class MsTeams implements Callback {
         return webClientMono.flatMap(
                 webClient -> webClient.post()
                         .bodyValue(createMessageCard(title, severity))
-                        .exchange()
-                        .flatMap(this::logResponseStatusAndBody)
+                        .exchangeToMono(this::logResponseStatusAndBody)
         );
     }
 
