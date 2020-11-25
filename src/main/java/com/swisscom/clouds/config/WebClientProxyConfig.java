@@ -8,7 +8,7 @@ import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.netty.http.client.HttpClient;
-import reactor.netty.tcp.ProxyProvider;
+import reactor.netty.transport.ProxyProvider;
 
 @Slf4j
 @Component
@@ -22,11 +22,9 @@ public class WebClientProxyConfig implements WebClientCustomizer {
         if (StringUtils.isNotBlank(proxyProperties.getHost())) {
             log.info("Proxy settings detected, using host={}, port={}", proxyProperties.getHost(), proxyProperties.getPort());
             HttpClient httpClient = HttpClient.create()
-                    .tcpConfiguration(tcpClient -> tcpClient
-                            .proxy(proxy -> proxy
-                                    .type(ProxyProvider.Proxy.HTTP)
-                                    .host(proxyProperties.getHost())
-                                    .port(proxyProperties.getPort())));
+                    .proxy(proxyOptions -> proxyOptions.type(ProxyProvider.Proxy.HTTP)
+                            .host(proxyProperties.getHost())
+                            .port(proxyProperties.getPort()));
 
             webClientBuilder.clientConnector(new ReactorClientHttpConnector(httpClient));
         }
