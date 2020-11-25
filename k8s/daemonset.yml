@@ -8,6 +8,10 @@ spec:
   selector:
     matchLabels:
       app: pod-lifecycle-notifier
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 100%
   template:
     metadata:
       labels:
@@ -58,7 +62,7 @@ spec:
                 fieldRef:
                   fieldPath: spec.serviceAccountName
             - name: JAVA_OPTS
-              value: "-XX:ReservedCodeCacheSize=20M -XX:MaxDirectMemorySize=1M -XX:MaxMetaspaceSize=60M -Xss256K"
+              value: "-XX:ReservedCodeCacheSize=20M -XX:MaxDirectMemorySize=10M -XX:MaxMetaspaceSize=60M -Xss512K"
 #            - name: PROXY_HOST
 #              value: "<insert-proxy-host-if-needed>"
 #            - name: PROXY_PORT
