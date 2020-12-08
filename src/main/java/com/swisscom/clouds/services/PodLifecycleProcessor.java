@@ -28,14 +28,14 @@ public class PodLifecycleProcessor {
     }
 
     @EventListener(ApplicationStartedEvent.class)
-    public void applicationStarted() {
+    public void applicationStarted(ApplicationStartedEvent applicationStartedEvent) {
         Flux.fromIterable(callbackImplementations)
                 .flatMap(Callback::onStartup)
                 .subscribe();
     }
 
     @EventListener(ContextClosedEvent.class)
-    public void contextClosed() {
+    public void contextClosed(ContextClosedEvent contextClosedEvent) {
         Flux.fromIterable(callbackImplementations)
                 .flatMap(Callback::onShutdown)
                 .blockLast();

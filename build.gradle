@@ -50,5 +50,9 @@ springBoot {
 
 bootBuildImage {
     imageName = "robachmann/${project.name}:${project.version}"
-    environment = ["BP_BOOT_NATIVE_IMAGE" : "1"]
+    builder = "paketobuildpacks/builder:tiny"
+    environment = [
+            "BP_BOOT_NATIVE_IMAGE" : "1",
+            "BP_BOOT_NATIVE_IMAGE_BUILD_ARGUMENTS" : "-Dspring.native.remove-yaml-support=true -Dspring.spel.ignore=true"
+    ]
 }
