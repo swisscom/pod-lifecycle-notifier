@@ -1,0 +1,120 @@
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v2.4.0)
+
+2020-12-09 17:37:36.354  INFO 1 --- [           main] c.swisscom.clouds.PodLifecycleNotifier   : Starting PodLifecycleNotifier using Java 11.0.9 on pod-lifecycle-notifier-k7k6v with PID 1 (/workspace/com.swisscom.clouds.PodLifecycleNotifier started by cnb in /workspace)
+2020-12-09 17:37:36.354  INFO 1 --- [           main] c.swisscom.clouds.PodLifecycleNotifier   : No active profile set, falling back to default profiles: default
+2020-12-09 17:37:36.452  WARN 1 --- [           main] i.m.c.i.binder.jvm.JvmGcMetrics          : GC notifications will not be available because MemoryPoolMXBeans are not provided by the JVM
+2020-12-09 17:37:36.457  INFO 1 --- [           main] c.s.c.services.PodLifecycleProcessor     : Enabled Callbacks: MsTeams, ConsoleLogger
+2020-12-09 17:37:36.476  INFO 1 --- [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
+2020-12-09 17:37:36.484  INFO 1 --- [           main] o.s.b.web.embedded.netty.NettyWebServer  : Netty started on port(s): 8080
+2020-12-09 17:37:36.487  INFO 1 --- [           main] c.swisscom.clouds.PodLifecycleNotifier   : Started PodLifecycleNotifier in 0.137 seconds (JVM running for 0.143)
+2020-12-09 17:37:36.488  INFO 1 --- [           main] c.s.c.callbacks.console.ConsoleLogger    : Application Startup: cluster=aks, node=aks-agentpool-11552782-1, nodeIpAddress=10.240.0.5, namespace=tzhbaroi, pod=pod-lifecycle-notifier-k7k6v, podIpAddress=10.244.0.141, serviceAccount=default, buildVersion=1.1.0
+Dec 09, 2020 5:37:36 PM com.fasterxml.jackson.databind.ext.Java7Handlers <clinit>
+WARNING: Unable to load JDK7 types (java.nio.file.Path): no Java7 type support added
+2020-12-09 17:37:36.583  WARN 1 --- [ctor-http-nio-3] r.netty.http.client.HttpClientConnect    : [id: 0x70279293, L:/10.244.0.141:57494 - R:httpbin.org/3.211.1.78:80] The connection observed an error
+
+org.springframework.web.reactive.function.UnsupportedMediaTypeException: Content type 'application/json' not supported for bodyType=com.swisscom.clouds.callbacks.teams.entities.MessageCard
+	at org.springframework.web.reactive.function.BodyInserters.unsupportedError(BodyInserters.java:391) ~[na:na]
+	at org.springframework.web.reactive.function.BodyInserters.lambda$writeWithMessageWriters$11(BodyInserters.java:381) ~[na:na]
+	at java.util.Optional.orElseGet(Optional.java:369) ~[na:na]
+	at org.springframework.web.reactive.function.BodyInserters.writeWithMessageWriters(BodyInserters.java:381) ~[na:na]
+	at org.springframework.web.reactive.function.BodyInserters.lambda$fromValue$1(BodyInserters.java:98) ~[na:na]
+	at org.springframework.web.reactive.function.client.DefaultClientRequestBuilder$BodyInserterRequest.writeTo(DefaultClientRequestBuilder.java:275) ~[na:na]
+	at org.springframework.web.reactive.function.client.ExchangeFunctions$DefaultExchangeFunction.lambda$exchange$1(ExchangeFunctions.java:104) ~[na:na]
+	at org.springframework.http.client.reactive.ReactorClientHttpConnector.lambda$connect$2(ReactorClientHttpConnector.java:108) ~[com.swisscom.clouds.PodLifecycleNotifier:5.3.1]
+	at reactor.netty.http.client.HttpClientConnect$HttpClientHandler.requestWithBody(HttpClientConnect.java:536) ~[na:na]
+	at reactor.netty.http.client.HttpClientConnect$HttpIOHandlerObserver.lambda$onStateChange$0(HttpClientConnect.java:378) ~[na:na]
+	at reactor.core.publisher.MonoDefer.subscribe(MonoDefer.java:44) ~[na:na]
+	at reactor.netty.http.client.HttpClientConnect$HttpIOHandlerObserver.onStateChange(HttpClientConnect.java:379) ~[na:na]
+	at reactor.netty.ReactorNetty$CompositeConnectionObserver.onStateChange(ReactorNetty.java:612) ~[na:na]
+	at reactor.netty.resources.DefaultPooledConnectionProvider$DisposableAcquire.onStateChange(DefaultPooledConnectionProvider.java:194) ~[na:na]
+	at reactor.netty.resources.DefaultPooledConnectionProvider$PooledConnection.onStateChange(DefaultPooledConnectionProvider.java:465) ~[na:na]
+	at reactor.netty.channel.ChannelOperationsHandler.channelActive(ChannelOperationsHandler.java:63) ~[com.swisscom.clouds.PodLifecycleNotifier:1.0.1]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelActive(AbstractChannelHandlerContext.java:230) ~[com.swisscom.clouds.PodLifecycleNotifier:4.1.54.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelActive(AbstractChannelHandlerContext.java:216) ~[com.swisscom.clouds.PodLifecycleNotifier:4.1.54.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelActive(AbstractChannelHandlerContext.java:209) ~[com.swisscom.clouds.PodLifecycleNotifier:4.1.54.Final]
+	at io.netty.channel.ChannelInboundHandlerAdapter.channelActive(ChannelInboundHandlerAdapter.java:69) ~[na:na]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelActive(AbstractChannelHandlerContext.java:230) ~[com.swisscom.clouds.PodLifecycleNotifier:4.1.54.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelActive(AbstractChannelHandlerContext.java:216) ~[com.swisscom.clouds.PodLifecycleNotifier:4.1.54.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelActive(AbstractChannelHandlerContext.java:209) ~[com.swisscom.clouds.PodLifecycleNotifier:4.1.54.Final]
+	at io.netty.channel.CombinedChannelDuplexHandler$DelegatingChannelHandlerContext.fireChannelActive(CombinedChannelDuplexHandler.java:412) ~[na:na]
+	at io.netty.channel.ChannelInboundHandlerAdapter.channelActive(ChannelInboundHandlerAdapter.java:69) ~[na:na]
+	at io.netty.channel.CombinedChannelDuplexHandler.channelActive(CombinedChannelDuplexHandler.java:211) ~[com.swisscom.clouds.PodLifecycleNotifier:4.1.54.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelActive(AbstractChannelHandlerContext.java:230) ~[com.swisscom.clouds.PodLifecycleNotifier:4.1.54.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelActive(AbstractChannelHandlerContext.java:216) ~[com.swisscom.clouds.PodLifecycleNotifier:4.1.54.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelActive(AbstractChannelHandlerContext.java:209) ~[com.swisscom.clouds.PodLifecycleNotifier:4.1.54.Final]
+	at io.netty.channel.DefaultChannelPipeline$HeadContext.channelActive(DefaultChannelPipeline.java:1398) ~[com.swisscom.clouds.PodLifecycleNotifier:4.1.54.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelActive(AbstractChannelHandlerContext.java:230) ~[com.swisscom.clouds.PodLifecycleNotifier:4.1.54.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelActive(AbstractChannelHandlerContext.java:216) ~[com.swisscom.clouds.PodLifecycleNotifier:4.1.54.Final]
+	at io.netty.channel.DefaultChannelPipeline.fireChannelActive(DefaultChannelPipeline.java:895) ~[com.swisscom.clouds.PodLifecycleNotifier:4.1.54.Final]
+	at io.netty.channel.nio.AbstractNioChannel$AbstractNioUnsafe.fulfillConnectPromise(AbstractNioChannel.java:305) ~[na:na]
+	at io.netty.channel.nio.AbstractNioChannel$AbstractNioUnsafe.finishConnect(AbstractNioChannel.java:335) ~[na:na]
+	at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:707) ~[na:na]
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:655) ~[na:na]
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:581) ~[na:na]
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:493) ~[na:na]
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989) ~[na:na]
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74) ~[na:na]
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30) ~[na:na]
+	at java.lang.Thread.run(Thread.java:834) ~[na:na]
+	at com.oracle.svm.core.thread.JavaThreads.threadStartRoutine(JavaThreads.java:519) ~[na:na]
+	at com.oracle.svm.core.posix.thread.PosixJavaThreads.pthreadStartRoutine(PosixJavaThreads.java:192) ~[na:na]
+
+2020-12-09 17:37:36.584 ERROR 1 --- [ctor-http-nio-3] reactor.core.publisher.Operators         : Operator called default onErrorDropped
+
+reactor.core.Exceptions$ErrorCallbackNotImplemented: org.springframework.web.reactive.function.client.WebClientRequestException: Content type 'application/json' not supported for bodyType=com.swisscom.clouds.callbacks.teams.entities.MessageCard; nested exception is org.springframework.web.reactive.function.UnsupportedMediaTypeException: Content type 'application/json' not supported for bodyType=com.swisscom.clouds.callbacks.teams.entities.MessageCard
+Caused by: org.springframework.web.reactive.function.client.WebClientRequestException: Content type 'application/json' not supported for bodyType=com.swisscom.clouds.callbacks.teams.entities.MessageCard; nested exception is org.springframework.web.reactive.function.UnsupportedMediaTypeException: Content type 'application/json' not supported for bodyType=com.swisscom.clouds.callbacks.teams.entities.MessageCard
+	at org.springframework.web.reactive.function.client.ExchangeFunctions$DefaultExchangeFunction.lambda$wrapException$9(ExchangeFunctions.java:137) ~[na:na]
+Caused by: org.springframework.web.reactive.function.UnsupportedMediaTypeException: Content type 'application/json' not supported for bodyType=com.swisscom.clouds.callbacks.teams.entities.MessageCard
+	at org.springframework.web.reactive.function.BodyInserters.unsupportedError(BodyInserters.java:391) ~[na:na]
+	at org.springframework.web.reactive.function.BodyInserters.lambda$writeWithMessageWriters$11(BodyInserters.java:381) ~[na:na]
+	at java.util.Optional.orElseGet(Optional.java:369) ~[na:na]
+	at org.springframework.web.reactive.function.BodyInserters.writeWithMessageWriters(BodyInserters.java:381) ~[na:na]
+	at org.springframework.web.reactive.function.BodyInserters.lambda$fromValue$1(BodyInserters.java:98) ~[na:na]
+	at org.springframework.web.reactive.function.client.DefaultClientRequestBuilder$BodyInserterRequest.writeTo(DefaultClientRequestBuilder.java:275) ~[na:na]
+	at org.springframework.web.reactive.function.client.ExchangeFunctions$DefaultExchangeFunction.lambda$exchange$1(ExchangeFunctions.java:104) ~[na:na]
+	at org.springframework.http.client.reactive.ReactorClientHttpConnector.lambda$connect$2(ReactorClientHttpConnector.java:108) ~[com.swisscom.clouds.PodLifecycleNotifier:5.3.1]
+	at reactor.netty.http.client.HttpClientConnect$HttpClientHandler.requestWithBody(HttpClientConnect.java:536) ~[na:na]
+	at reactor.netty.http.client.HttpClientConnect$HttpIOHandlerObserver.lambda$onStateChange$0(HttpClientConnect.java:378) ~[na:na]
+	at reactor.core.publisher.MonoDefer.subscribe(MonoDefer.java:44) ~[na:na]
+	at reactor.netty.http.client.HttpClientConnect$HttpIOHandlerObserver.onStateChange(HttpClientConnect.java:379) ~[na:na]
+	at reactor.netty.ReactorNetty$CompositeConnectionObserver.onStateChange(ReactorNetty.java:612) ~[na:na]
+	at reactor.netty.resources.DefaultPooledConnectionProvider$DisposableAcquire.onStateChange(DefaultPooledConnectionProvider.java:194) ~[na:na]
+	at reactor.netty.resources.DefaultPooledConnectionProvider$PooledConnection.onStateChange(DefaultPooledConnectionProvider.java:465) ~[na:na]
+	at reactor.netty.channel.ChannelOperationsHandler.channelActive(ChannelOperationsHandler.java:63) ~[com.swisscom.clouds.PodLifecycleNotifier:1.0.1]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelActive(AbstractChannelHandlerContext.java:230) ~[com.swisscom.clouds.PodLifecycleNotifier:4.1.54.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelActive(AbstractChannelHandlerContext.java:216) ~[com.swisscom.clouds.PodLifecycleNotifier:4.1.54.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelActive(AbstractChannelHandlerContext.java:209) ~[com.swisscom.clouds.PodLifecycleNotifier:4.1.54.Final]
+	at io.netty.channel.ChannelInboundHandlerAdapter.channelActive(ChannelInboundHandlerAdapter.java:69) ~[na:na]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelActive(AbstractChannelHandlerContext.java:230) ~[com.swisscom.clouds.PodLifecycleNotifier:4.1.54.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelActive(AbstractChannelHandlerContext.java:216) ~[com.swisscom.clouds.PodLifecycleNotifier:4.1.54.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelActive(AbstractChannelHandlerContext.java:209) ~[com.swisscom.clouds.PodLifecycleNotifier:4.1.54.Final]
+	at io.netty.channel.CombinedChannelDuplexHandler$DelegatingChannelHandlerContext.fireChannelActive(CombinedChannelDuplexHandler.java:412) ~[na:na]
+	at io.netty.channel.ChannelInboundHandlerAdapter.channelActive(ChannelInboundHandlerAdapter.java:69) ~[na:na]
+	at io.netty.channel.CombinedChannelDuplexHandler.channelActive(CombinedChannelDuplexHandler.java:211) ~[com.swisscom.clouds.PodLifecycleNotifier:4.1.54.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelActive(AbstractChannelHandlerContext.java:230) ~[com.swisscom.clouds.PodLifecycleNotifier:4.1.54.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelActive(AbstractChannelHandlerContext.java:216) ~[com.swisscom.clouds.PodLifecycleNotifier:4.1.54.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelActive(AbstractChannelHandlerContext.java:209) ~[com.swisscom.clouds.PodLifecycleNotifier:4.1.54.Final]
+	at io.netty.channel.DefaultChannelPipeline$HeadContext.channelActive(DefaultChannelPipeline.java:1398) ~[com.swisscom.clouds.PodLifecycleNotifier:4.1.54.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelActive(AbstractChannelHandlerContext.java:230) ~[com.swisscom.clouds.PodLifecycleNotifier:4.1.54.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelActive(AbstractChannelHandlerContext.java:216) ~[com.swisscom.clouds.PodLifecycleNotifier:4.1.54.Final]
+	at io.netty.channel.DefaultChannelPipeline.fireChannelActive(DefaultChannelPipeline.java:895) ~[com.swisscom.clouds.PodLifecycleNotifier:4.1.54.Final]
+	at io.netty.channel.nio.AbstractNioChannel$AbstractNioUnsafe.fulfillConnectPromise(AbstractNioChannel.java:305) ~[na:na]
+	at io.netty.channel.nio.AbstractNioChannel$AbstractNioUnsafe.finishConnect(AbstractNioChannel.java:335) ~[na:na]
+	at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:707) ~[na:na]
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:655) ~[na:na]
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:581) ~[na:na]
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:493) ~[na:na]
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989) ~[na:na]
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74) ~[na:na]
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30) ~[na:na]
+	at java.lang.Thread.run(Thread.java:834) ~[na:na]
+	at com.oracle.svm.core.thread.JavaThreads.threadStartRoutine(JavaThreads.java:519) ~[na:na]
+	at com.oracle.svm.core.posix.thread.PosixJavaThreads.pthreadStartRoutine(PosixJavaThreads.java:192) ~[na:na]
+
