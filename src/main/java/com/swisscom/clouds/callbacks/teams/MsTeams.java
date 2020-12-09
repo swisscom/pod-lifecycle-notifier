@@ -10,6 +10,7 @@ import com.swisscom.clouds.config.KubernetesProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.info.BuildProperties;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -54,6 +55,7 @@ public class MsTeams implements Callback {
     private Mono<?> sendMessage(String title, Severity severity) {
         return webClientMono.flatMap(
                 webClient -> webClient.post()
+                        .contentType(MediaType.APPLICATION_JSON)
                         .bodyValue(createMessageCard(title, severity))
                         .exchangeToMono(this::logResponseStatusAndBody)
         );
