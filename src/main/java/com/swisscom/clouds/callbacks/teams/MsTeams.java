@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.info.BuildProperties;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -19,29 +18,16 @@ import java.util.List;
 import java.util.Map;
 
 @Slf4j
-@Component
 public class MsTeams implements Callback {
 
-    private final boolean isEnabled;
-    private final Mono<WebClient> webClientMono;
+    private final WebClient webClient;
     private final KubernetesProperties k8sProperties;
     private final BuildProperties buildProperties;
 
     public MsTeams(CallbackProperties callbackProperties, KubernetesProperties k8sProperties, WebClient.Builder webclientBuilder, BuildProperties buildProperties) {
         this.k8sProperties = k8sProperties;
         this.buildProperties = buildProperties;
-        String msTeamsUri = callbackProperties.getMsTeamsUri();
-        this.isEnabled = StringUtils.isNotBlank(msTeamsUri);
-        if (this.isEnabled) {
-            webClientMono = Mono.just(webclientBuilder.baseUrl(msTeamsUri).build());
-        } else {
-            webClientMono = Mono.empty();
-        }
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return isEnabled;
+        this.webClient = webclientBuilder.baseUrl(callbackProperties.getMsTeamsUri()).build();
     }
 
     @Override
@@ -55,14 +41,12 @@ public class MsTeams implements Callback {
     }
 
     private Mono<?> sendMessage(String title, Severity severity) {
-        return webClientMono.flatMap(webClient -> {
-                    Map<String, Object> messageCard = createMessageCard(title, severity);
-                    return webClient.post()
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .bodyValue(messageCard)
-                            .exchangeToMono(this::logResponseStatusAndBody);
-                }
-        );
+        Map<String, Object> messageCard = createMessageCard(title, severity);
+        return webClient.post()
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(messageCard)
+                .exchangeToMono(this::logResponseStatusAndBody);
+
     }
 
     private Map<String, Object> createMessageCard(String title, Severity severity) {

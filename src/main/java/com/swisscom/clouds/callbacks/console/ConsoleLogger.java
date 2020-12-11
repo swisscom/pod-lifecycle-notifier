@@ -10,17 +10,11 @@ import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
 @Slf4j
-@Component
 @RequiredArgsConstructor
 public class ConsoleLogger implements Callback {
 
     private final KubernetesProperties k8sProperties;
     private final BuildProperties buildProperties;
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 
     @Override
     public Mono<?> onStartup() {
