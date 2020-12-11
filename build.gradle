@@ -53,6 +53,6 @@ bootBuildImage {
     builder = "paketobuildpacks/builder:tiny"
     environment = [
             "BP_BOOT_NATIVE_IMAGE"                : "1",
-            "BP_BOOT_NATIVE_IMAGE_BUILD_ARGUMENTS": '-Dspring.native.remove-yaml-support=true -Dspring.spel.ignore=true --initialize-at-run-time=io.netty.handler.ssl.ReferenceCountedOpenSslContext --initialize-at-run-time=io.netty.handler.ssl.JdkNpnApplicationProtocolNegotiator --initialize-at-run-time=io.netty.handler.ssl.JettyAlpnSslEngine$ServerEngine --initialize-at-run-time=io.netty.handler.ssl.JettyAlpnSslEngine$ClientEngine --initialize-at-run-time=io.netty.handler.ssl.ConscryptAlpnSslEngine --initialize-at-run-time=io.netty.handler.ssl.ReferenceCountedOpenSslEngine --initialize-at-run-time=io.netty.handler.ssl.JettyNpnSslEngine --initialize-at-run-time=io.netty.util.internal.logging.Log4JLogger'
+            "BP_BOOT_NATIVE_IMAGE_BUILD_ARGUMENTS": '-Dspring.native.remove-yaml-support=true -Dspring.spel.ignore=true --enable-https'
     ]
 }
