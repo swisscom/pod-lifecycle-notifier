@@ -1,6 +1,9 @@
 package com.swisscom.clouds.callbacks.teams;
 
 import com.swisscom.clouds.callbacks.Callback;
+import com.swisscom.clouds.callbacks.teams.entities.Fact;
+import com.swisscom.clouds.callbacks.teams.entities.FactSet;
+import com.swisscom.clouds.callbacks.teams.entities.MessageCard;
 import com.swisscom.clouds.callbacks.teams.entities.Severity;
 import com.swisscom.clouds.config.CallbackProperties;
 import com.swisscom.clouds.config.KubernetesProperties;
@@ -41,41 +44,29 @@ public class MsTeams implements Callback {
     }
 
     private Mono<?> sendMessage(String title, Severity severity) {
-        Map<String, Object> messageCard = createMessageCard(title, severity);
+        final MessageCard messageCard = createMessageCard(title, severity);
         return webClient.post()
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(messageCard)
                 .exchangeToMono(this::logResponseStatusAndBody);
-
     }
 
-    private Map<String, Object> createMessageCard(String title, Severity severity) {
-        Map<String, Object> messageCard = new HashMap<>();
-
-        messageCard.put("@context", "https://schema.org/extensions");
-        messageCard.put("@type", "MessageCard");
-        messageCard.put("title", title);
-        messageCard.put("themeColor", severity.getCode());
-        messageCard.put("text", "Pod Lifecycle Notifier triggered notification.");
-        messageCard.put("potentialAction", List.of());
-
-        List<Map<String, Object>> facts = new ArrayList<>();
-
+    private MessageCard createMessageCard(String title, Severity severity) {
+        MessageCard messageCard = new MessageCard(title);
+        messageCard.setThemeColor(severity.getCode());
+        messageCard.setText("Pod Lifecycle Notifier triggered notification.");
+        FactSet factSet = new FactSet();
         if (StringUtils.isNotBlank(k8sProperties.getCluster())) {
-            facts.add(Map.of("name", "Cluster:", "value", getOrEmpty(k8sProperties.getCluster())));
+            factSet.getFacts().add(new Fact("Cluster:", k8sProperties.getCluster()));
         }
-        facts.add(Map.of("name", "Node:", "value", getOrEmpty(k8sProperties.getNode())));
-        facts.add(Map.of("name", "Node IP Address:", "value", getOrEmpty(k8sProperties.getNodeIpAddress())));
-        facts.add(Map.of("name", "Namespace:", "value", getOrEmpty(k8sProperties.getNamespace())));
-        facts.add(Map.of("name", "Pod:", "value", getOrEmpty(k8sProperties.getPod())));
-        facts.add(Map.of("name", "Pod IP Address:", "value", getOrEmpty(k8sProperties.getPodIpAddress())));
-        facts.add(Map.of("name", "Service Account:", "value", getOrEmpty(k8sProperties.getServiceAccount())));
-        facts.add(Map.of("name", "Build Version:", "value", getOrEmpty(buildProperties.getVersion())));
-
-        Map<String, Object> factSet = Map.of("facts", facts);
-        List<Map<String, Object>> sections = List.of(factSet);
-        messageCard.put("sections", sections);
-
+        factSet.getFacts().add(new Fact("Node:", k8sProperties.getNode()));
+        factSet.getFacts().add(new Fact("Node IP Address:", k8sProperties.getNodeIpAddress()));
+        factSet.getFacts().add(new Fact("Namespace:", k8sProperties.getNamespace()));
+        factSet.getFacts().add(new Fact("Pod:", k8sProperties.getPod()));
+        factSet.getFacts().add(new Fact("Pod IP Address:", k8sProperties.getPodIpAddress()));
+        factSet.getFacts().add(new Fact("Service Account:", k8sProperties.getServiceAccount()));
+        factSet.getFacts().add(new Fact("Build Version:", buildProperties.getVersion()));
+        messageCard.getSections().add(factSet);
         return messageCard;
     }
 

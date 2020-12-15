@@ -1,0 +1,37 @@
+[
+  {
+    "name":"com.swisscom.clouds.callbacks.teams.entities.Activity",
+    "allDeclaredConstructors":true,
+    "allDeclaredMethods":true
+  },
+  {
+    "name":"com.swisscom.clouds.callbacks.teams.entities.Fact",
+    "allDeclaredConstructors":true,
+    "allDeclaredMethods":true
+  },
+  {
+    "name":"com.swisscom.clouds.callbacks.teams.entities.FactSet",
+    "allDeclaredConstructors":true,
+    "allDeclaredMethods":true
+  },
+  {
+    "name":"com.swisscom.clouds.callbacks.teams.entities.MessageCard",
+    "allDeclaredConstructors":true,
+    "allDeclaredMethods":true
+  },
+  {
+    "name":"com.swisscom.clouds.callbacks.teams.entities.PotentialAction",
+    "allDeclaredConstructors":true,
+    "allDeclaredMethods":true
+  },
+  {
+    "name":"com.swisscom.clouds.callbacks.teams.entities.Severity",
+    "allDeclaredConstructors":true,
+    "allDeclaredMethods":true
+  },
+  {
+    "name":"com.swisscom.clouds.callbacks.teams.entities.Target",
+    "allDeclaredConstructors":true,
+    "allDeclaredMethods":true
+  }
+]
