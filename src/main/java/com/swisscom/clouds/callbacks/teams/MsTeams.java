@@ -15,11 +15,6 @@ import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 @Slf4j
 public class MsTeams implements Callback {
 
@@ -68,10 +63,6 @@ public class MsTeams implements Callback {
         factSet.getFacts().add(new Fact("Build Version:", buildProperties.getVersion()));
         messageCard.getSections().add(factSet);
         return messageCard;
-    }
-
-    private String getOrEmpty(String value) {
-        return value == null ? "" : value;
     }
 
     private Mono<?> logResponseStatusAndBody(ClientResponse clientResponse) {
