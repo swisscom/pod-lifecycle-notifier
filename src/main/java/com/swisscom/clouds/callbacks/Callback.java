@@ -8,8 +8,6 @@ public interface Callback {
         return getClass().getSimpleName();
     }
 
-    boolean isEnabled();
-
     Mono<?> onStartup();
 
     Mono<?> onShutdown();

@@ -17,25 +17,22 @@ public class PodLifecycleProcessor {
 
     private final List<Callback> callbackImplementations;
 
-    public PodLifecycleProcessor(List<Callback> callbackInterfaces) {
-
-        this.callbackImplementations = callbackInterfaces.stream()
-                .filter(Callback::isEnabled)
-                .collect(Collectors.toList());
-
+    public PodLifecycleProcessor(List<Callback> callbackImplementations) {
+        this.callbackImplementations = callbackImplementations;
         log.info("Enabled Callbacks: {}", callbackImplementations.stream().map(Callback::getDescription).collect(Collectors.joining(", ")));
-
     }
 
+    @SuppressWarnings("unused")
     @EventListener(ApplicationStartedEvent.class)
-    public void applicationStarted() {
+    public void applicationStarted(ApplicationStartedEvent applicationStartedEvent) {
         Flux.fromIterable(callbackImplementations)
                 .flatMap(Callback::onStartup)
                 .subscribe();
     }
 
+    @SuppressWarnings("unused")
     @EventListener(ContextClosedEvent.class)
-    public void contextClosed() {
+    public void contextClosed(ContextClosedEvent contextClosedEvent) {
         Flux.fromIterable(callbackImplementations)
                 .flatMap(Callback::onShutdown)
                 .blockLast();

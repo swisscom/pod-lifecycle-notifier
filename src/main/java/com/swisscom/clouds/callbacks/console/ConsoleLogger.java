@@ -6,21 +6,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.info.BuildProperties;
-import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
 @Slf4j
-@Component
 @RequiredArgsConstructor
 public class ConsoleLogger implements Callback {
 
     private final KubernetesProperties k8sProperties;
     private final BuildProperties buildProperties;
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 
     @Override
     public Mono<?> onStartup() {
