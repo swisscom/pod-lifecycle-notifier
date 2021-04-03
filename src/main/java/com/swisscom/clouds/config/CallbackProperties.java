@@ -10,5 +10,7 @@ import org.springframework.stereotype.Component;
 public class CallbackProperties {
 
     private String msTeamsUri;
+    private String telegramBotToken;
+    private String telegramChatId;
 
 }

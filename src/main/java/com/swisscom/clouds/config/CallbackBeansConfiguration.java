@@ -3,6 +3,7 @@ package com.swisscom.clouds.config;
 import com.swisscom.clouds.callbacks.Callback;
 import com.swisscom.clouds.callbacks.console.ConsoleLogger;
 import com.swisscom.clouds.callbacks.teams.MsTeams;
+import com.swisscom.clouds.callbacks.telegram.TelegramClient;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.info.BuildProperties;
@@ -29,6 +30,10 @@ public class CallbackBeansConfiguration {
 
         if (StringUtils.isNotBlank(callbackProperties.getMsTeamsUri())) {
             callbackList.add(new MsTeams(callbackProperties, kubernetesProperties, webclientBuilder, buildProperties));
+        }
+
+        if (StringUtils.isNoneBlank(callbackProperties.getTelegramBotToken(), callbackProperties.getTelegramChatId())) {
+            callbackList.add(new TelegramClient(callbackProperties, kubernetesProperties, webclientBuilder, buildProperties));
         }
 
         return callbackList;
