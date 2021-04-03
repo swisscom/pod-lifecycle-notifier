@@ -1,0 +1,27 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: restricted-role
+  namespace: pod-lifecycle-notifier
+rules:
+  - apiGroups:
+      - extensions
+    resourceNames:
+      - pks-restricted
+    resources:
+      - podsecuritypolicies
+    verbs:
+      - use
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: restricted-rolebinding
+  namespace: pod-lifecycle-notifier
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: restricted-role
+subjects:
+  - kind: ServiceAccount
+    name: default

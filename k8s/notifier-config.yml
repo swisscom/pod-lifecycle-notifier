@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: notifier-config
+  namespace: pod-lifecycle-notifier
+data:
+  KUBERNETES_CLUSTER: "minikube"
+  JAVA_OPTS: "-XX:ReservedCodeCacheSize=20M -XX:MaxDirectMemorySize=10M -XX:MaxMetaspaceSize=60M -Xss512K"
+  PROXY_HOST: ""
+  PROXY_PORT: ""
