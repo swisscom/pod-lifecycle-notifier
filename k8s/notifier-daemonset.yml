@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: notifier
-          image: robachmann/pod-lifecycle-notifier:1.1.3
+          image: robachmann/pod-lifecycle-notifier:1.1.4
           resources:
             requests:
               cpu: 5m
