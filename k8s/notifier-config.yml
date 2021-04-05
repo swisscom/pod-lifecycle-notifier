@@ -5,6 +5,6 @@ metadata:
   namespace: pod-lifecycle-notifier
 data:
   KUBERNETES_CLUSTER: "minikube"
-  JAVA_OPTS: "-XX:ReservedCodeCacheSize=20M -XX:MaxDirectMemorySize=10M -XX:MaxMetaspaceSize=60M -Xss512K"
+  JAVA_OPTS: "-XX:ReservedCodeCacheSize=64M -XX:MaxDirectMemorySize=64M -XX:MaxMetaspaceSize=64M -Xss1M"
   PROXY_HOST: ""
   PROXY_PORT: ""
