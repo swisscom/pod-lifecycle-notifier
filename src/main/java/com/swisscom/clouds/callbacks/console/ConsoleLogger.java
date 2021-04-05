@@ -26,8 +26,16 @@ public class ConsoleLogger implements Callback {
     }
 
     private String createMessage(String title) {
-        return String.format("%s: %snode=%s, nodeIpAddress=%s, namespace=%s, pod=%s, podIpAddress=%s, serviceAccount=%s, buildVersion=%s",
-                title, formatOptionalClusterName(), k8sProperties.getNode(), k8sProperties.getNodeIpAddress(), k8sProperties.getNamespace(), k8sProperties.getPod(), k8sProperties.getPodIpAddress(), k8sProperties.getServiceAccount(), buildProperties.getVersion());
+        return String.format("%s: %s%snode=%s, nodeIpAddress=%s, namespace=%s, pod=%s, podIpAddress=%s, serviceAccount=%s, buildVersion=%s",
+                title, formatOptionalApiVersion(), formatOptionalClusterName(), k8sProperties.getNode(), k8sProperties.getNodeIpAddress(), k8sProperties.getNamespace(), k8sProperties.getPod(), k8sProperties.getPodIpAddress(), k8sProperties.getServiceAccount(), buildProperties.getVersion());
+    }
+
+    private String formatOptionalApiVersion() {
+        if (StringUtils.isNotBlank(k8sProperties.getApiVersion())) {
+            return "cluster=" + k8sProperties.getApiVersion() + ", ";
+        } else {
+            return "";
+        }
     }
 
     private String formatOptionalClusterName() {

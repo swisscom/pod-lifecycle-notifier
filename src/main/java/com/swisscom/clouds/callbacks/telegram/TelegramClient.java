@@ -45,6 +45,10 @@ public class TelegramClient implements Callback {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(title).append("\n").append("\n");
 
+        if (StringUtils.isNotBlank(k8sProperties.getApiVersion())) {
+            stringBuilder.append("*API Version:* ").append(k8sProperties.getApiVersion()).append("\n");
+        }
+
         if (StringUtils.isNotBlank(k8sProperties.getCluster())) {
             stringBuilder.append("*Cluster:* ").append(k8sProperties.getCluster()).append("\n");
         }

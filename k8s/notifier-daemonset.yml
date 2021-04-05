@@ -18,6 +18,19 @@ spec:
       labels:
         app: notifier-daemonset
     spec:
+      volumes:
+        - name: shared-volume
+          emptyDir: { }
+      initContainers:
+        - name: init-container
+          image: dwdraju/alpine-curl-jq:latest
+          command:
+            - "/bin/sh"
+            - "-c"
+            - "export SERVICEACCOUNT=/var/run/secrets/kubernetes.io/serviceaccount && export TOKEN=$(cat ${SERVICEACCOUNT}/token) && export CACERT=${SERVICEACCOUNT}/ca.crt && curl --cacert ${CACERT} --header \"Authorization: Bearer ${TOKEN}\" -X GET https://kubernetes.default.svc/version | jq .gitVersion -r > /mnt/init-container/kubeapi-version"
+          volumeMounts:
+            - name: shared-volume
+              mountPath: "/mnt/init-container"
       containers:
         - name: notifier
           image: robachmann/pod-lifecycle-notifier:1.2.0
@@ -69,3 +82,6 @@ spec:
               port: 8080
             failureThreshold: 3
             periodSeconds: 10
+          volumeMounts:
+            - name: shared-volume
+              mountPath: "/mnt/init-container"

@@ -51,6 +51,9 @@ public class MsTeams implements Callback {
         messageCard.setThemeColor(severity.getCode());
         messageCard.setText("Pod Lifecycle Notifier triggered notification.");
         FactSet factSet = new FactSet();
+        if (StringUtils.isNotBlank(k8sProperties.getApiVersion())) {
+            factSet.getFacts().add(new Fact("API Version:", k8sProperties.getApiVersion()));
+        }
         if (StringUtils.isNotBlank(k8sProperties.getCluster())) {
             factSet.getFacts().add(new Fact("Cluster:", k8sProperties.getCluster()));
         }
