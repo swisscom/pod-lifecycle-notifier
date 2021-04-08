@@ -27,13 +27,13 @@ spec:
           command:
             - "/bin/sh"
             - "-c"
-            - "export SERVICEACCOUNT=/var/run/secrets/kubernetes.io/serviceaccount && export TOKEN=$(cat ${SERVICEACCOUNT}/token) && export CACERT=${SERVICEACCOUNT}/ca.crt && curl --cacert ${CACERT} --header \"Authorization: Bearer ${TOKEN}\" -X GET https://kubernetes.default.svc/version | jq .gitVersion -r > /mnt/init-container/kubeapi-version"
+            - "export SERVICEACCOUNT=/var/run/secrets/kubernetes.io/serviceaccount && export TOKEN=$(cat ${SERVICEACCOUNT}/token) && export CACERT=${SERVICEACCOUNT}/ca.crt && curl --cacert ${CACERT} --header \"Authorization: Bearer ${TOKEN}\" -X GET https://kubernetes.default.svc/version | jq .gitVersion -r > /mnt/init-container/kubeapi-version && cat /mnt/init-container/kubeapi-version"
           volumeMounts:
             - name: shared-volume
               mountPath: "/mnt/init-container"
       containers:
         - name: notifier
-          image: robachmann/pod-lifecycle-notifier:1.3.0
+          image: robachmann/pod-lifecycle-notifier:1.3.1
           resources:
             requests:
               cpu: 5m

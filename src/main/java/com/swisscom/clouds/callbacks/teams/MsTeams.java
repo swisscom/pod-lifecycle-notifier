@@ -51,9 +51,6 @@ public class MsTeams implements Callback {
         messageCard.setThemeColor(severity.getCode());
         messageCard.setText("Pod Lifecycle Notifier triggered notification.");
         FactSet factSet = new FactSet();
-        if (StringUtils.isNotBlank(k8sProperties.getApiVersion())) {
-            factSet.getFacts().add(new Fact("API Version:", k8sProperties.getApiVersion()));
-        }
         if (StringUtils.isNotBlank(k8sProperties.getCluster())) {
             factSet.getFacts().add(new Fact("Cluster:", k8sProperties.getCluster()));
         }
@@ -64,6 +61,9 @@ public class MsTeams implements Callback {
         factSet.getFacts().add(new Fact("Pod IP Address:", k8sProperties.getPodIpAddress()));
         factSet.getFacts().add(new Fact("Service Account:", k8sProperties.getServiceAccount()));
         factSet.getFacts().add(new Fact("Build Version:", buildProperties.getVersion()));
+        if (StringUtils.isNotBlank(k8sProperties.getApiVersion())) {
+            factSet.getFacts().add(new Fact("API Version:", k8sProperties.getApiVersion()));
+        }
         messageCard.getSections().add(factSet);
         return messageCard;
     }
